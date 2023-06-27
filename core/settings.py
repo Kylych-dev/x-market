@@ -28,12 +28,12 @@ INSTALLED_APPS = [
 
 
     # apps 
-    'account',
-    'category',  
-    'orders',  
-    'product',  
-    'review',  
-    'vendors',
+    'app.account.apps.AccountConfig',
+    'app.category.apps.CategoryConfig',  
+    'app.orders.apps.OrdersConfig',  
+    'app.product.apps.ProductConfig',  
+    'app.review.apps.ReviewConfig',  
+    'app.vendors.apps.VendorsConfig',
     
 
 ]

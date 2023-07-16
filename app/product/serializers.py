@@ -16,16 +16,16 @@ class UserSerializers(serializers.ModelSerializer):
         model = User
         fields = ['username']
 
+
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+
     class Meta:
         model = Product
         fields = '__all__'
 
     def to_representation(self, instance):
-        ret =  super().to_representation(instance)
+        ret = super().to_representation(instance)
         ret['category'] = CategorySerializer(instance.category).data['name']
-        ret['owner'] = UserSerializers(instance.owner).data  
+        ret['owner'] = UserSerializers(instance.owner).data
         return ret
-    
-    

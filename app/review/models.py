@@ -1,12 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
-
-
-class Product(models.Model):
-    title = models.CharField(max_length=50)
+from app.product.models import Product
+User = get_user_model()
 
 
 class Review(models.Model):

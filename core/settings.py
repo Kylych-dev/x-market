@@ -1,5 +1,7 @@
 from pathlib import Path
 import os
+from datetime import timedelta
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,15 +38,27 @@ INSTALLED_APPS = [
     'app.product.apps.ProductConfig',  
     'app.review.apps.ReviewConfig',  
     'app.vendors.apps.VendorsConfig',
+    'app.authentication.AuthenticationConfig',
 
     #another
     'rest_framework',
     'ckeditor',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'drf_yasg',
     
 
 ]
 
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+         'Bearer': {
+             'type': 'apiKey',
+             'name': 'Authorization',
+             'in': 'header'
+         }
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,6 +100,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'error',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=10),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
 
 
 # Password validation
@@ -134,3 +161,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media' 
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alisher.andakeev@gmail.com'
+EMAIL_HOST_PASSWORD = 'mrpfmrwyqevphjdz'

@@ -23,9 +23,12 @@ class Cart(object):
         product_ids = self.cart.keys()
         # получить объекты product и добавить их в корзину
         # products = models.Product.objects.filter(id__in=product_ids)
-        products = ProductSerializer(models.Product.objects.filter(id__in=product_ids, many=True).data)
+        products = ProductSerializer(models.Product.objects.filter(id__in=product_ids), many=True)
+        product_data = products.data
+
         cart = self.cart.copy()
-        for product in products:
+        
+        for product in product_data:
             cart[str(product.id)['product']] = product
         for item in cart.values():
             item['price'] = Decimal(item['price'])

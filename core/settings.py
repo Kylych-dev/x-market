@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'app.review.apps.ReviewConfig',  
     'app.vendors.apps.VendorsConfig',
     'app.authentication.apps.AuthenticationConfig',
-
-    
-
 ]
+
+
+CART_SESSION_ID = 'cart'
+
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {

@@ -16,6 +16,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = 'account.User'
 
 # Application definition
 
@@ -39,9 +40,11 @@ INSTALLED_APPS = [
     #another
     'rest_framework',
     'ckeditor',
+    'rest_framework_simplejwt',
     
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
 from ..category.models import Category
+from ..account.models import User
 
 
 class Product(models.Model):

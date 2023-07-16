@@ -11,7 +11,7 @@ class Product(models.Model):
     description = RichTextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     capacity = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    is_favorite = models.BooleanField(default=False)
+    is_favorite = models.ManyToManyField(User, related_name='product_is_favorite', default=None, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='products_image/', null=True, blank=True)

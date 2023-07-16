@@ -1,27 +1,24 @@
-from django.shortcuts import render
-from rest_framework.generics import ListAPIView, RetrieveAPIView
-
+from rest_framework import viewsets
 from .models import Courier, Collectors
-from .serializers import CollectorsSerializer, CourierSerializer
+from .serializers import (CollectorsDetailInfoSerializer,
+                          CourierDetailsInfoSerializer,
+                          CollectorListSerializer,
+                          CourierListSerializer)
 
 
-class CourierListAPIView(ListAPIView):
+class CourierInfoAPIView(viewsets.ReadOnlyModelViewSet):
     queryset = Courier.objects.all()
-    serializer_class = CourierSerializer
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CourierListSerializer
+        return CourierDetailsInfoSerializer
 
 
-class CourierRetrieveAPIView(RetrieveAPIView):
-    queryset = Courier.objects.all()
-    serializer_class = CourierSerializer
-
-
-class CollectorsListAPIView(ListAPIView):
+class CollectorsInfoAPIView(viewsets.ReadOnlyModelViewSet):
     queryset = Collectors.objects.all()
-    serializer_class = CollectorsSerializer
 
-
-class CollectorsRetrieveAPIView(RetrieveAPIView):
-    queryset = Collectors.objects.all()
-    serializer_class = CollectorsSerializer
-
-
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CollectorListSerializer
+        return CollectorsDetailInfoSerializer

@@ -1,9 +1,8 @@
 from django.urls import path
-from .views import CollectorsListAPIView, CollectorsRetrieveAPIView, CourierListAPIView, CourierRetrieveAPIView
+from rest_framework import routers
+from .views import CollectorsInfoAPIView, CourierInfoAPIView
 
-urlpatterns = [
-    path('api-collectors/', CollectorsListAPIView.as_view()),
-    path('<int:pk>/', CollectorsRetrieveAPIView.as_view()),
-    path('api-courier/', CourierListAPIView.as_view()),
-    path('<int:pk>/', CourierRetrieveAPIView.as_view())
-]
+
+router = routers.DefaultRouter()
+router.register(r'api-collector/', CollectorsInfoAPIView, basename='api-collector')
+router.register(r'api-courier/', CourierInfoAPIView, basename='api-courier')

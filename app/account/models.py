@@ -100,6 +100,10 @@ class Collectors(User):
         verbose_name_plural = 'Collectors'
 
 
+class Blacklist(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
+    reason = models.CharField(max_length=255, null=True, blank=True)
 
-    
-    
+    def __str__(self):
+        return self.customer.username
+        

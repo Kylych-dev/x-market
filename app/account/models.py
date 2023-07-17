@@ -43,6 +43,9 @@ class UserManager(BaseUserManager):
 class Language(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=100, null=True, blank=True)

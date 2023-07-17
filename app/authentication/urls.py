@@ -5,7 +5,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (RegisterView, VerifyEmail, LoginApiView, PasswordTokenCheckAPI, 
                     RequestPasswordResetEmail, SetNewPasswordApiView, LogoutAPIView, 
                     AddToBlackListView, DeleteFromBlackListView, CourierRegisterView,
-                    CollectorRegisterView)
+                    CollectorRegisterView, CourierRetrieveUpdateDeleteView, CollectorRetrieveUpdateDeleteView)
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -22,4 +22,7 @@ urlpatterns = [
 
     path('courier-register/', CourierRegisterView.as_view(), name='courier-register'),
     path('collector-register/', CollectorRegisterView.as_view(), name='collector-register'),
+    path('courier-update/', CourierRetrieveUpdateDeleteView.as_view(), name='courier-update'),
+    path('collector-update/', CollectorRetrieveUpdateDeleteView.as_view(), name='collector-update'),
+    
 ]

@@ -172,6 +172,7 @@ class LogoutAPIView(generics.GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
+# BlackList Views
 class AddToBlackListView(generics.CreateAPIView):
     queryset = Blacklist.objects.all()
     serializer_class = BlackListSerializer
@@ -207,6 +208,7 @@ class DeleteFromBlackListView(generics.DestroyAPIView):
         return Response({'success': 'User removed from the blacklist'})
 
 
+# Courier Views
 class CourierRegisterView(generics.CreateAPIView):
     queryset = Courier.objects.all()
     serializer_class = CourierRegister
@@ -236,8 +238,15 @@ class CourierRegisterView(generics.CreateAPIView):
         Util.send_mail(data=data)
 
         return Response(user_data,  status=status.HTTP_201_CREATED)
+
+
+class CourierRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Courier.objects.all()
+    serializer_class = CourierRegister
+    # permission_classes = [IsAuthenticated]
     
 
+# Collector Views
 class CollectorRegisterView(generics.CreateAPIView):
     queryset = Collectors.objects.all()
     serializer_class = CollectorRegister
@@ -268,3 +277,8 @@ class CollectorRegisterView(generics.CreateAPIView):
 
         return Response(user_data,  status=status.HTTP_201_CREATED)
     
+
+class CollectorRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Collectors.objects.all()
+    serializer_class = CollectorRegister
+    # permission_classes = [IsAuthenticated]

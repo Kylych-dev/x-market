@@ -180,6 +180,17 @@ class CourierRegister(serializers.Serializer):
         courier = Courier.objects.create(**validated_data)
         courier.languages.set(languages)
         return courier
+    
+    def update(self, instance, validated_data):
+        languages = validated_data.pop('languages', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if languages:
+            instance.languages.set(languages)
+
+        return instance
 
 
 class CollectorRegister(serializers.Serializer):
@@ -203,3 +214,15 @@ class CollectorRegister(serializers.Serializer):
         collector = Collectors.objects.create(**validated_data)
         collector.languages.set(languages)
         return collector
+
+    def update(self, instance, validated_data):
+        languages = validated_data.pop('languages', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if languages:
+            instance.languages.set(languages)
+
+        return instance
+    

@@ -6,3 +6,7 @@ from .views import CollectorsInfoAPIView, CourierInfoAPIView
 router = routers.DefaultRouter()
 router.register(r'api-collector/', CollectorsInfoAPIView, basename='api-collector')
 router.register(r'api-courier/', CourierInfoAPIView, basename='api-courier')
+
+urlpatterns = [
+    
+]

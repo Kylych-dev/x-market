@@ -9,7 +9,7 @@ from rest_framework.exceptions import AuthenticationFailed
 
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
 
-from account.models import User, Blacklist
+from app.account.models import User, Blacklist
 
 
 class RegisterSerializer(serializers.ModelSerializer):

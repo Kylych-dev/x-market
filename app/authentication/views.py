@@ -19,7 +19,7 @@ from drf_yasg import openapi
 
 from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailSerializer, SetNewPasswordSerializer, LogoutSerializer, BlackListSerializer
 from .renderers import UserRenderer
-from account.models import User, Blacklist
+from app.account.models import User, Blacklist
 from .utils import Util
 
 

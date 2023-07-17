@@ -46,7 +46,8 @@ class Language(models.Model):
 
 class User(AbstractBaseUser, PermissionsMixin):
     full_name = models.CharField(max_length=100, null=True, blank=True)
-    img = models.ImageField(upload_to='products_image/', null=True, blank=True)
+    id_picture = models.ImageField(upload_to='id_images/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_images/', null=True, blank=True)
     languages = models.ManyToManyField(Language)
     fix_pay = models.PositiveIntegerField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)

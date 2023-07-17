@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'app.product.apps.ProductConfig',  
     'app.review.apps.ReviewConfig',  
     'app.vendors.apps.VendorsConfig',
-    'app.authentication.AuthenticationConfig',
+    'app.authentication.apps',
+    
 
     #another
     'rest_framework',

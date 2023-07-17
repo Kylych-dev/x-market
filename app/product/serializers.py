@@ -1,9 +1,10 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 
 from .models import Product
 from ..category.models import Category
-
+ 
+from ..account.models import User
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,8 +19,6 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
-    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
     class Meta:
         model = Product
         fields = '__all__'
@@ -28,4 +27,5 @@ class ProductSerializer(serializers.ModelSerializer):
         ret = super().to_representation(instance)
         ret['category'] = CategorySerializer(instance.category).data['name']
         ret['owner'] = UserSerializers(instance.owner).data
+        ret['is_favorite'] = UserSerializers(instance.owner).data
         return ret

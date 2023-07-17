@@ -68,10 +68,12 @@ class LoginSerializer(serializers.ModelSerializer):
         
         user = auth.authenticate(email=email, password=password)
 
+        bl_user = Blacklist.objects.filter(customer=user.id)
+
         if not user:
             raise  AuthenticationFailed('Invalid credentials, try again')
         
-        if user.blacklist:
+        if user.id == bl_user:
             raise AuthenticationFailed('Your account is blacklisted. Please contact the administrator to resolve this issue')
         
         if not user.is_active:
@@ -180,17 +182,6 @@ class CourierRegisterSerializer(serializers.Serializer):
         courier = Courier.objects.create(**validated_data)
         courier.languages.set(languages)
         return courier
-    
-    def update(self, instance, validated_data):
-        languages = validated_data.pop('languages', [])
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-
-        if languages:
-            instance.languages.set(languages)
-
-        return instance
 
 
 class CourierUpdateSerializer(serializers.Serializer):
@@ -214,12 +205,6 @@ class CourierUpdateSerializer(serializers.Serializer):
         model = Courier
         fields = ['full_name', 'languages', 'fix_pay', 'date_of_birth', 'phone_number', 'home_address', 
                   'username', 'email', 'id_courier', 'id_picture', 'profile_picture', 'car_brand', 'has_bicycle', 'is_on_foot']
-
-    def create(self, validated_data):
-        languages = validated_data.pop('languages')
-        courier = Courier.objects.create(**validated_data)
-        courier.languages.set(languages)
-        return courier
     
     def update(self, instance, validated_data):
         languages = validated_data.pop('languages', [])
@@ -255,17 +240,6 @@ class CollectorRegisterSerializer(serializers.Serializer):
         collector.languages.set(languages)
         return collector
 
-    def update(self, instance, validated_data):
-        languages = validated_data.pop('languages', [])
-        for attr, value in validated_data.items():
-            setattr(instance, attr, value)
-        instance.save()
-
-        if languages:
-            instance.languages.set(languages)
-
-        return instance
-
 
 class CollectorUpdateSerializer(serializers.Serializer):
     full_name = serializers.CharField(max_length=100, allow_null=True)
@@ -285,13 +259,7 @@ class CollectorUpdateSerializer(serializers.Serializer):
         model = Collectors
         fields = ['full_name', 'languages', 'fix_pay', 'date_of_birth', 'phone_number', 'home_address', 
                   'username', 'email', 'id_collectors', 'id_picture', 'profile_picture',]
-
-    def create(self, validated_data):
-        languages = validated_data.pop('languages')
-        collector = Collectors.objects.create(**validated_data)
-        collector.languages.set(languages)
-        return collector
-
+        
     def update(self, instance, validated_data):
         languages = validated_data.pop('languages', [])
         for attr, value in validated_data.items():

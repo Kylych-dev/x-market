@@ -154,3 +154,7 @@ class BlackListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blacklist
         fields = '__all__'
+
+
+class CourierRegister(serializers.Serializer):
+    pass

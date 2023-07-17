@@ -20,7 +20,9 @@ from drf_yasg import openapi
 from .serializers import (RegisterSerializer, EmailVerificationSerializer, 
                           LoginSerializer, ResetPasswordEmailSerializer, 
                           SetNewPasswordSerializer, LogoutSerializer, 
-                          BlackListSerializer, CourierRegister, CollectorRegister)
+                          BlackListSerializer, CourierRegisterSerializer, 
+                          CollectorRegisterSerializer, CourierUpdateSerializer,
+                          CollectorUpdateSerializer)
 from .renderers import UserRenderer
 from app.account.models import User, Blacklist, Courier, Collectors
 from .utils import Util
@@ -211,7 +213,7 @@ class DeleteFromBlackListView(generics.DestroyAPIView):
 # Courier Views
 class CourierRegisterView(generics.CreateAPIView):
     queryset = Courier.objects.all()
-    serializer_class = CourierRegister
+    serializer_class = CourierRegisterSerializer
 
     def post(self, request):
         user = request.data
@@ -242,14 +244,14 @@ class CourierRegisterView(generics.CreateAPIView):
 
 class CourierRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Courier.objects.all()
-    serializer_class = CourierRegister
+    serializer_class = CourierUpdateSerializer
     # permission_classes = [IsAuthenticated]
     
 
 # Collector Views
 class CollectorRegisterView(generics.CreateAPIView):
     queryset = Collectors.objects.all()
-    serializer_class = CollectorRegister
+    serializer_class = CollectorRegisterSerializer
 
     def post(self, request):
         user = request.data
@@ -280,5 +282,5 @@ class CollectorRegisterView(generics.CreateAPIView):
 
 class CollectorRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Collectors.objects.all()
-    serializer_class = CollectorRegister
+    serializer_class = CollectorUpdateSerializer
     # permission_classes = [IsAuthenticated]

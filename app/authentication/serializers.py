@@ -156,7 +156,7 @@ class BlackListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CourierRegister(serializers.Serializer):
+class CourierRegisterSerializer(serializers.Serializer):
     full_name = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
     languages = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all(), many=True)
     fix_pay = serializers.IntegerField(allow_null=True)
@@ -193,7 +193,47 @@ class CourierRegister(serializers.Serializer):
         return instance
 
 
-class CollectorRegister(serializers.Serializer):
+class CourierUpdateSerializer(serializers.Serializer):
+    full_name = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
+    languages = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all(), many=True)
+    fix_pay = serializers.IntegerField(allow_null=True)
+    date_of_birth = serializers.DateField(allow_null=True)
+    phone_number = serializers.CharField(allow_null=True, max_length=20,
+                                    help_text="Enter phone number in the format: '+996 555 632-728'")
+    home_address = serializers.CharField(allow_null=True, allow_blank=True)
+    username = serializers.CharField(max_length=255, validators=[validators.UniqueValidator(queryset=Courier.objects.all())])
+    email = serializers.EmailField(max_length=255, validators=[validators.UniqueValidator(queryset=Courier.objects.all())])
+    id_courier = serializers.CharField(max_length=50, validators=[validators.UniqueValidator(queryset=Courier.objects.all())])
+    car_brand = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
+    has_bicycle = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
+    is_on_foot = serializers.CharField(max_length=100, allow_null=True, allow_blank=True)
+    profile_picture = serializers.ImageField(max_length=None, use_url=True)
+    id_picture = serializers.ImageField(max_length=None, use_url=True)
+
+    class Meta:
+        model = Courier
+        fields = ['full_name', 'languages', 'fix_pay', 'date_of_birth', 'phone_number', 'home_address', 
+                  'username', 'email', 'id_courier', 'id_picture', 'profile_picture', 'car_brand', 'has_bicycle', 'is_on_foot']
+
+    def create(self, validated_data):
+        languages = validated_data.pop('languages')
+        courier = Courier.objects.create(**validated_data)
+        courier.languages.set(languages)
+        return courier
+    
+    def update(self, instance, validated_data):
+        languages = validated_data.pop('languages', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if languages:
+            instance.languages.set(languages)
+
+        return instance
+
+
+class CollectorRegisterSerializer(serializers.Serializer):
     full_name = serializers.CharField(max_length=100, allow_null=True)
     languages = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all(), many=True)
     fix_pay = serializers.IntegerField(allow_null=True)
@@ -207,7 +247,44 @@ class CollectorRegister(serializers.Serializer):
 
     class Meta:
         model = Collectors
-        fields = ['full_name', 'languages', 'fix_pay', 'date_of_birth', 'phone_number', 'home_address', 'username', 'email', 'id_collectors', 'car_brand', 'has_bicycle', 'is_on_foot']
+        fields = ['full_name', 'languages', 'fix_pay', 'date_of_birth', 'phone_number', 'home_address', 'username', 'email', 'id_collectors']
+
+    def create(self, validated_data):
+        languages = validated_data.pop('languages')
+        collector = Collectors.objects.create(**validated_data)
+        collector.languages.set(languages)
+        return collector
+
+    def update(self, instance, validated_data):
+        languages = validated_data.pop('languages', [])
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+
+        if languages:
+            instance.languages.set(languages)
+
+        return instance
+
+
+class CollectorUpdateSerializer(serializers.Serializer):
+    full_name = serializers.CharField(max_length=100, allow_null=True)
+    languages = serializers.PrimaryKeyRelatedField(queryset=Language.objects.all(), many=True)
+    fix_pay = serializers.IntegerField(allow_null=True)
+    date_of_birth = serializers.DateField(allow_null=True)
+    phone_number = serializers.CharField(allow_null=True, max_length=20,
+                                    help_text="Enter phone number in the format: '+996 555 632-728'")
+    home_address = serializers.CharField(allow_null=True)
+    username = serializers.CharField(max_length=255, validators=[validators.UniqueValidator(queryset=Collectors.objects.all())])
+    email = serializers.EmailField(max_length=255, validators=[validators.UniqueValidator(queryset=Collectors.objects.all())])
+    id_collectors = serializers.CharField(max_length=50, validators=[validators.UniqueValidator(queryset=Collectors.objects.all())])
+    profile_picture = serializers.ImageField(max_length=None, use_url=True)
+    id_picture = serializers.ImageField(max_length=None, use_url=True)
+
+    class Meta:
+        model = Collectors
+        fields = ['full_name', 'languages', 'fix_pay', 'date_of_birth', 'phone_number', 'home_address', 
+                  'username', 'email', 'id_collectors', 'id_picture', 'profile_picture',]
 
     def create(self, validated_data):
         languages = validated_data.pop('languages')

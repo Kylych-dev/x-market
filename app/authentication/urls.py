@@ -22,7 +22,7 @@ urlpatterns = [
 
     path('courier-register/', CourierRegisterView.as_view(), name='courier-register'),
     path('collector-register/', CollectorRegisterView.as_view(), name='collector-register'),
-    path('courier-update/', CourierRetrieveUpdateDeleteView.as_view(), name='courier-update'),
-    path('collector-update/', CollectorRetrieveUpdateDeleteView.as_view(), name='collector-update'),
-    
+    path('courier-update/<int:pk>', CourierRetrieveUpdateDeleteView.as_view(), name='courier-update'),
+    path('collector-update/<int:pk>', CollectorRetrieveUpdateDeleteView.as_view(), name='collector-update'),
+
 ]

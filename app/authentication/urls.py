@@ -2,7 +2,10 @@ from django.urls import path
 
 from rest_framework_simplejwt.views import TokenRefreshView
 
-from .views import RegisterView, VerifyEmail, LoginApiView, PasswordTokenCheckAPI, RequestPasswordResetEmail, SetNewPasswordApiView, LogoutAPIView, AddToBlackListView, DeleteFromBlackListView
+from .views import (RegisterView, VerifyEmail, LoginApiView, PasswordTokenCheckAPI, 
+                    RequestPasswordResetEmail, SetNewPasswordApiView, LogoutAPIView, 
+                    AddToBlackListView, DeleteFromBlackListView, CourierRegisterView,
+                    CollectorRegisterView, CourierRetrieveUpdateDeleteView, CollectorRetrieveUpdateDeleteView)
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -16,4 +19,10 @@ urlpatterns = [
 
     path('add-to-blacklist/<int:user_id>', AddToBlackListView.as_view(), name='add-to-blacklist'),
     path('remove-from-blacklist/<int:user_id>', DeleteFromBlackListView.as_view(), name='remove-from-blacklist'),
+
+    path('courier-register/', CourierRegisterView.as_view(), name='courier-register'),
+    path('collector-register/', CollectorRegisterView.as_view(), name='collector-register'),
+    path('courier-update/<int:pk>', CourierRetrieveUpdateDeleteView.as_view(), name='courier-update'),
+    path('collector-update/<int:pk>', CollectorRetrieveUpdateDeleteView.as_view(), name='collector-update'),
+
 ]

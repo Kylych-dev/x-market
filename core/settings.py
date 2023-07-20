@@ -30,6 +30,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'rest_framework',
+
+    'rest_framework_simplejwt',
+    'ckeditor',
+
 
     # apps 
     'app.account.apps.AccountConfig',
@@ -39,16 +44,12 @@ INSTALLED_APPS = [
     'app.review.apps.ReviewConfig',  
     'app.vendors.apps.VendorsConfig',
     'app.authentication.apps.AuthenticationConfig',
-
-    #another
-    'rest_framework',
-    'ckeditor',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
-    'drf_yasg',
-    
-
 ]
+
+
+
+CART_SESSION_ID = 'cart'
+
 
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {

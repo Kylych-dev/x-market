@@ -24,6 +24,7 @@ from .serializers import (RegisterSerializer, EmailVerificationSerializer,
                           CollectorRegisterSerializer, CourierUpdateSerializer,
                           CollectorUpdateSerializer)
 from .renderers import UserRenderer
+
 from app.account.models import User, Blacklist, Courier, Collectors
 from .utils import Util
 

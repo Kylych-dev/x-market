@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 
+
 CART_SESSION_ID = 'cart'
 
 

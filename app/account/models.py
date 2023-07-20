@@ -14,7 +14,7 @@ class UserManager(BaseUserManager):
 
         if username is None:
             raise TypeError("User should have a username.")
-        
+
         if email is None:
             raise TypeError("User should have a Email.")
 
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
 
         if password is None:
             raise TypeError("Password should not be a None.")
-        
+
         user = self.create_user(username=username, email=email, password=password)
         user.is_superuser = True
         user.is_staff = True
@@ -40,12 +40,22 @@ class UserManager(BaseUserManager):
         return user
 
 
+class Language(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.title
+
+
 class User(AbstractBaseUser, PermissionsMixin):
-    img = models.ImageField(upload_to='products_image/', null=True)
-    other_languages = models.TextField(blank=True, null=True)
+    full_name = models.CharField(max_length=100, null=True, blank=True)
+    id_picture = models.ImageField(upload_to='id_images/', null=True, blank=True)
+    profile_picture = models.ImageField(upload_to='profile_images/', null=True, blank=True)
+    languages = models.ManyToManyField(Language)
     fix_pay = models.PositiveIntegerField(null=True, blank=True)
     date_of_birth = models.DateField(null=True, blank=True)
-    phone_number = models.CharField(null=True, blank=True, max_length=20, help_text="Enter phone number in the format: '+996 555 632-728'")
+    phone_number = models.CharField(null=True, blank=True, max_length=20,
+                                    help_text="Enter phone number in the format: '+996 555 632-728'")
     home_address = models.TextField(blank=True, null=True)
 
     username = models.CharField(max_length=255, unique=True, db_index=True)
@@ -58,7 +68,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
@@ -66,7 +75,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self) -> str:
         return self.email
-    
+
     def tokens(self):
         refresh = RefreshToken.for_user(self)
         return {
@@ -83,15 +92,15 @@ class Courier(User):
 
     def __str__(self):
         return self.username
-    
+
     class Meta():
         verbose_name = 'Courier'
         verbose_name_plural = 'Couriers'
-    
+
 
 class Collectors(User):
     id_collectors = models.CharField(max_length=50, unique=True)
-    
+
     def __str__(self):
         return self.username
 
@@ -107,3 +116,4 @@ class Blacklist(models.Model):
     def __str__(self):
         return self.customer.username
         
+

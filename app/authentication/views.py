@@ -17,9 +17,15 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg.utils import swagger_auto_schema 
 from drf_yasg import openapi
 
-from .serializers import RegisterSerializer, EmailVerificationSerializer, LoginSerializer, ResetPasswordEmailSerializer, SetNewPasswordSerializer, LogoutSerializer, BlackListSerializer
+from .serializers import (RegisterSerializer, EmailVerificationSerializer, 
+                          LoginSerializer, ResetPasswordEmailSerializer, 
+                          SetNewPasswordSerializer, LogoutSerializer, 
+                          BlackListSerializer, CourierRegisterSerializer, 
+                          CollectorRegisterSerializer, CourierUpdateSerializer,
+                          CollectorUpdateSerializer)
 from .renderers import UserRenderer
-from app.account.models import User, Blacklist
+
+from app.account.models import User, Blacklist, Courier, Collectors
 from .utils import Util
 
 
@@ -169,6 +175,7 @@ class LogoutAPIView(generics.GenericAPIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
 
+# BlackList Views
 class AddToBlackListView(generics.CreateAPIView):
     queryset = Blacklist.objects.all()
     serializer_class = BlackListSerializer
@@ -202,3 +209,79 @@ class DeleteFromBlackListView(generics.DestroyAPIView):
         blacklist.delete()
 
         return Response({'success': 'User removed from the blacklist'})
+
+
+# Courier Views
+class CourierRegisterView(generics.CreateAPIView):
+    queryset = Courier.objects.all()
+    serializer_class = CourierRegisterSerializer
+
+    def post(self, request):
+        user = request.data
+        serializer = self.serializer_class(data=user)
+        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        user_data = serializer.data
+        user = User.objects.get(email=user_data['email'])
+
+        token = RefreshToken.for_user(user=user).access_token
+
+        current_site = get_current_site(request).domain
+        relativeLink = reverse('email-verify')
+        absurl = f'http://{current_site}{relativeLink}?token={str(token)}'
+
+        email_body = f'Hi {user.username}! Use link below to verify your email.\n{absurl}'
+        data = {
+            'email_body': email_body,
+            'to_email': user.email,
+            'email_subject': 'Verify your email address'
+            }
+        Util.send_mail(data=data)
+
+        return Response(user_data,  status=status.HTTP_201_CREATED)
+
+
+class CourierRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Courier.objects.all()
+    serializer_class = CourierUpdateSerializer
+    # permission_classes = [IsAuthenticated]
+    
+
+# Collector Views
+class CollectorRegisterView(generics.CreateAPIView):
+    queryset = Collectors.objects.all()
+    serializer_class = CollectorRegisterSerializer
+
+    def post(self, request):
+        user = request.data
+        serializer = self.serializer_class(data=user)
+        
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        user_data = serializer.data
+        user = User.objects.get(email=user_data['email'])
+
+        token = RefreshToken.for_user(user=user).access_token
+
+        current_site = get_current_site(request).domain
+        relativeLink = reverse('email-verify')
+        absurl = f'http://{current_site}{relativeLink}?token={str(token)}'
+
+        email_body = f'Hi {user.username}! Use link below to verify your email.\n{absurl}'
+        data = {
+            'email_body': email_body,
+            'to_email': user.email,
+            'email_subject': 'Verify your email address'
+            }
+        Util.send_mail(data=data)
+
+        return Response(user_data,  status=status.HTTP_201_CREATED)
+    
+
+class CollectorRetrieveUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Collectors.objects.all()
+    serializer_class = CollectorUpdateSerializer
+    # permission_classes = [IsAuthenticated]

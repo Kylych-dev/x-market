@@ -4,6 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from app.product.models import Product
+
 User = get_user_model()
 
 

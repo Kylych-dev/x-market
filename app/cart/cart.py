@@ -77,10 +77,3 @@ class Cart(object):
         # удалить корзину из сеанса
         del self.session[settings.CART_SESSION_ID]
         self.save()
-
-
-
-
-
-
-

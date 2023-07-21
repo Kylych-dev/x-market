@@ -19,7 +19,6 @@ class Vendor(models.Model):
     def __str__(self) -> str:
         return self.vendor_name
     
-
     def is_open(self):
         today_date = date.today()
         today = today_date.isoweekday()
@@ -56,3 +55,4 @@ class OpeningHour(models.Model):
 
     def __str__(self) -> str:
         return self.get_day_display()
+    

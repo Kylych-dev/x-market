@@ -25,6 +25,7 @@ class Order(models.Model):
     def __str__(self):
         return str(self.pay_price)
 
+
 class OrderItems(models.Model):
     order = models.ForeignKey(to=Order, 
                               on_delete=models.CASCADE,
@@ -47,8 +48,6 @@ class OrderItems(models.Model):
         return super().save(*args, **kwargs)
     
 
-
-
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     transaction_id = models.CharField(max_length=100)
@@ -59,3 +58,4 @@ class Payment(models.Model):
     
     def __str__(self):
         return self.transaction_id
+    

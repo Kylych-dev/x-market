@@ -5,7 +5,6 @@ from .views import (CreateAndListProductReview,
                     CreateCourierReview,
                     ReviewOnCourierViewSet,
                     ReplyOnProductReviewView
-
                     )
 
 router = routers.DefaultRouter()

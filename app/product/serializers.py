@@ -22,7 +22,8 @@ class UserSerializers(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['title', 'description', 'sell_price', 'capacity',
+                  'is_favorite', 'owner', 'category', 'image']
 
     def to_representation(self, instance):
         ret = super().to_representation(instance)

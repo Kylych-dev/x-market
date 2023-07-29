@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDestroyAPIView
-
+ 
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -16,7 +16,6 @@ class ProductCreateAPIView(CreateAPIView):
     serializer_class = ProductSerializer
     
     
-
 class ProductRetrieveUpdateDestoyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
